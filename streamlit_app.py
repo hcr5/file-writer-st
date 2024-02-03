@@ -14,8 +14,8 @@ def commit_and_push_changes():
         # Commit changes
         subprocess.run(["git", "commit", "-m", "Automatically add 'hello world'"])
         
-        # Push changes to the remote repository
-        subprocess.run(["git", "push", "origin", "main"])  # Replace "main" with your branch name if different
+        # Push changes to the remote repository with authentication
+        subprocess.run(["git", "push", "https://hcr5:4a3ceba3219f7e3488f4032f820e003162ea7c01@github.com/hcr5/file-writer-st.git", "main"])
 
         st.success("Changes committed and pushed successfully!")
 
