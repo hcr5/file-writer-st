@@ -5,7 +5,7 @@ import time
 
 def add_player_to_kahoot(game_pin, player_name):
     # Start webdriver (gebruik de juiste pad naar jouw webdriver
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome('chromedriver.exe')
 
     # Navigeer naar de Kahoot-website
     driver.get("https://kahoot.it")
