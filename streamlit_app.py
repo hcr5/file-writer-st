@@ -4,8 +4,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 def add_player_to_kahoot(game_pin, player_name):
-    # Start webdriver (gebruik de juiste pad naar jouw webdriver)
-    driver = webdriver.Chrome('/pad/naar/chromedriver')
+    # Start webdriver (gebruik de juiste pad naar jouw webdriver
+    driver = webdriver.Chrome()
 
     # Navigeer naar de Kahoot-website
     driver.get("https://kahoot.it")
