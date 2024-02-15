@@ -1,37 +1,37 @@
-# app.py
 import streamlit as st
-import subprocess
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 
-def add_hello_world_to_file():
-    with open("transactions.txt", "a") as file:
-        file.write("hello world\n")
+def add_player_to_kahoot(game_pin, player_name):
+    # Start webdriver (gebruik de juiste pad naar jouw webdriver)
+    driver = webdriver.Chrome('/pad/naar/chromedriver')
 
-def commit_and_push_changes():
-    try:
-        # Add changes to the index
-        subprocess.run(["git", "add", "transactions.txt"])
-        
-        # Commit changes
-        subprocess.run(["git", "commit", "-m", "Automatically add 'hello world'"])
-        
-        # Push changes to the remote repository with authentication
-        subprocess.run(["git", "push", "https://hcr5:4a3ceba3219f7e3488f4032f820e003162ea7c01@github.com/hcr5/file-writer-st.git", "main"])
+    # Navigeer naar de Kahoot-website
+    driver.get("https://kahoot.it")
 
-        st.success("Changes committed and pushed successfully!")
+    # Wacht tot de pagina is geladen
+    time.sleep(2)
 
-    except Exception as e:
-        st.error(f"Error: {e}")
+    # Vind het invoerveld voor de spelcode en voer de code in
+    code_input = driver.find_element_by_css_selector(".input")
+    code_input.send_keys(game_pin)
+    code_input.send_keys(Keys.RETURN)
 
-def main():
-    st.title("GitHub Streamlit App")
+    # Wacht tot de volgende pagina is geladen
+    time.sleep(2)
 
-    # Automatically add 'hello world' to transactions.txt
-    add_hello_world_to_file()
+    # Vind het invoerveld voor de spelersnaam en voer de naam in
+    name_input = driver.find_element_by_css_selector(".nickname-input")
+    name_input.send_keys(player_name)
+    name_input.send_keys(Keys.RETURN)
 
-    # Automatically commit and push changes
-    commit_and_push_changes()
+    # Sluit de webdriver af
+    driver.quit()
 
-    st.success("Line added and changes committed automatically!")
+# Voer de game pin en de naam van de speler in
+game_pin = st.text_input("Pin:")
+player_name = st.text_input("Name:")
 
-if __name__ == "__main__":
-    main()
+# Roep de functie aan om de speler toe te voegen
+add_player_to_kahoot(game_pin, player_name)
