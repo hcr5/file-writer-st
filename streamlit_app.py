@@ -2,10 +2,12 @@ import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 def join_kahoot(pin):
-    # Set up Selenium WebDriver
-    driver = webdriver.Chrome()  # You'll need to have Chrome WebDriver installed and in PATH
+    # Set up Selenium WebDriver with the path to chromedriver.exe
+    chrome_driver_path = os.path.join(os.getcwd(), "chromedriver.exe")
+    driver = webdriver.Chrome(executable_path=chrome_driver_path)
     driver.get("https://kahoot.it")
 
     # Wait for page to load
