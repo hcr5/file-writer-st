@@ -3,35 +3,43 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 
-def add_player_to_kahoot(game_pin, player_name):
-    # Start webdriver (gebruik de juiste pad naar jouw webdriver
-    driver = webdriver.Chrome('chromedriver.exe')
-
-    # Navigeer naar de Kahoot-website
+def join_kahoot(pin):
+    # Set up Selenium WebDriver
+    driver = webdriver.Chrome()  # You'll need to have Chrome WebDriver installed and in PATH
     driver.get("https://kahoot.it")
 
-    # Wacht tot de pagina is geladen
-    time.sleep(2)
+    # Wait for page to load
+    time.sleep(3)
 
-    # Vind het invoerveld voor de spelcode en voer de code in
-    code_input = driver.find_element_by_css_selector(".input")
-    code_input.send_keys(game_pin)
-    code_input.send_keys(Keys.RETURN)
+    # Enter PIN
+    pin_input = driver.find_element_by_css_selector("input[placeholder='Enter game PIN']")
+    pin_input.send_keys(pin)
+    pin_input.send_keys(Keys.RETURN)
 
-    # Wacht tot de volgende pagina is geladen
-    time.sleep(2)
+    # Wait for joining screen
+    time.sleep(3)
 
-    # Vind het invoerveld voor de spelersnaam en voer de naam in
-    name_input = driver.find_element_by_css_selector(".nickname-input")
-    name_input.send_keys(player_name)
-    name_input.send_keys(Keys.RETURN)
+    # Click on "Enter" button
+    join_button = driver.find_element_by_css_selector(".enter-button__EnterButton-sc-1s2xb6-0")
+    join_button.click()
 
-    # Sluit de webdriver af
+    # Close browser after joining
+    # Comment out the below line if you want to keep the browser open after joining
     driver.quit()
 
-# Voer de game pin en de naam van de speler in
-game_pin = st.text_input("Pin:")
-player_name = st.text_input("Name:")
+def main():
+    st.title("Kahoot Auto Joiner")
+    st.write("Enter the Kahoot PIN below and click 'Join' to automatically join the game.")
 
-# Roep de functie aan om de speler toe te voegen
-add_player_to_kahoot(game_pin, player_name)
+    # Input field for Kahoot PIN
+    pin = st.text_input("Enter Kahoot PIN:")
+
+    # Join button
+    if st.button("Join"):
+        if pin:
+            join_kahoot(pin)
+        else:
+            st.warning("Please enter a PIN to join Kahoot.")
+
+if __name__ == "__main__":
+    main()
